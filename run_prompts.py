@@ -30,3 +30,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(HERE, "data", "job_postings.csv")
 PROMPTS_DIR = os.path.join(HERE, "prompts")
 RESULTS_PATH = os.path.join(HERE, "results", "live_run_outputs.md")
+
+
+def call_groq_api(prompt: str, temperature: float = 0.3) -> str:
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        sys.exit("Error: GROQ_API_KEY not set in environment variables or .env file.")
+
+    resp = requests.post(
+        GROQ_URL,
+        headers={"Authorization": f"Bearer {api_key}"},
+        json={
+            "model": GROQ_MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": temperature
+        },
+        timeout=60
+    )
+    resp.raise_for_status()
+
+    return resp.json()["choices"][0]["message"]["content"]
