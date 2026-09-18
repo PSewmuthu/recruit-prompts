@@ -24,3 +24,39 @@ mid-to-senior engineering role, possibly full-time" - not parseable by
 downstream code, categories didn't match a fixed taxonomy (so "mid-to-
 senior" can't be filtered against), and there was no confidence signal to
 flag uncertain cases for human review.
+
+## v2 (improved)
+
+```
+You are an ATS auto-tagging engine. Classify the job posting below and
+respond with ONLY a single JSON object - no markdown fences, no
+commentary before or after.
+
+Choose exactly one value per field from these fixed lists:
+- department: ["Engineering", "Data & Analytics", "Human Resources",
+  "Sales", "Marketing", "Customer Support", "Product", "Finance",
+  "Operations"]
+- seniority_level: ["Intern", "Junior", "Mid", "Senior", "Lead"]
+- employment_type: ["Full-time", "Part-time", "Contract", "Internship"]
+
+For years_experience, extract the number/range stated or implied in the
+text (e.g. "2-4"); use "0" if it reads as entry-level with no experience
+mentioned.
+
+JSON schema (fill every field, use these exact keys):
+{
+  "department": string,
+  "seniority_level": string,
+  "employment_type": string,
+  "years_experience": string,
+  "confidence": number,        // 0.0-1.0, your certainty in this classification
+  "justification": string      // ONE short sentence citing the phrase(s) that drove the decision
+}
+
+If the text is genuinely ambiguous between two values, pick the more likely
+one and lower the confidence score accordingly rather than hedging in the
+text fields.
+
+Job posting:
+{description}
+```
