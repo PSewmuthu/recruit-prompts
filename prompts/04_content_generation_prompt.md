@@ -1,7 +1,7 @@
-# Prompt 4 — Content Generation
+# Prompt 4 - Content Generation
 
 **Task:** Given a posting's structured fields, generate a LinkedIn-ready job
-ad that will actually attract applicants — the kind of content a recruiter
+ad that will actually attract applicants - the kind of content a recruiter
 needs to post multiple times a week and can't hand-write from scratch
 every time.
 
@@ -17,3 +17,9 @@ Write a LinkedIn post advertising this job:
 
 {fields}
 ```
+
+**Problem observed when tested:** generic corporate-brochure tone ("We are
+seeking a talented individual to join our dynamic team!"), no salary or
+location surfaced even though both were provided, no call-to-action, and
+no hashtags - i.e. missing the specific things that actually make a job
+post perform on LinkedIn.
