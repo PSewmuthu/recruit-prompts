@@ -19,6 +19,7 @@ import os
 import sys
 
 import requests
+import random
 import dotenv
 
 dotenv.load_dotenv()
@@ -69,3 +70,53 @@ def extract_prompt_body(md_path: str) -> str:
     code_blocks = blocks[1::2]
 
     return code_blocks[-1].strip() if code_blocks else ""
+
+
+def main():
+    os.makedirs(os.path.dirname(RESULTS_PATH), exist_ok=True)
+    dataset = load_dataset()
+    sample = random.choice(dataset)  # use for the single-posting prompts
+
+    with open(DATA_PATH, encoding='utf-8') as f:
+        full_dataset_text = f.read()
+
+    outputs = {}
+
+    # 1. Data Analysis Prompt - whole dataset
+    p1 = extract_prompt_body(os.path.join(
+        PROMPTS_DIR, "01_data_analysis_prompt.md"))
+    outputs["data_analysis"] = call_groq_api(
+        p1.replace("{dataset}", full_dataset_text))
+
+    # 2. Summarization Prompt - one posting's description only
+    p2 = extract_prompt_body(os.path.join(
+        PROMPTS_DIR, "02_summarization_prompt.md"))
+    outputs["summarization"] = call_groq_api(
+        p2.replace("{description}", sample["description"]))
+
+    # 3. Classification Prompt - description only, metadata withheld
+    p3 = extract_prompt_body(os.path.join(
+        PROMPTS_DIR, "03_classification_prompt.md"))
+    outputs["classification"] = call_groq_api(p3.replace(
+        "{description}", sample["description"]), temperature=0.1)
+
+    # 4. Content Generation Prompt - full structured fields
+    p4 = extract_prompt_body(os.path.join(
+        PROMPTS_DIR, "04_content_generation_prompt.md"))
+    fields_json = json.dumps(sample, indent=2)
+    outputs["content_generation"] = call_groq_api(
+        p4.replace("{fields}", fields_json))
+
+    with open(RESULTS_PATH, "w", encoding='utf-8') as f:
+        f.write("# Live Groq API run - outputs\n\n")
+        f.write(
+            f"Model: `{GROQ_MODEL}` · Sample posting used: `{sample['id']} - {sample['title']}`\n\n")
+        for name, out in outputs.items():
+            f.write(f"## {name.replace('_', ' ').title()}\n\n")
+            f.write(f"```\n{out}\n```\n\n")
+
+    print(f"Done! Outputs written to {RESULTS_PATH}")
+
+
+if __name__ == "__main__":
+    main()
