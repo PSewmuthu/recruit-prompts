@@ -50,3 +50,22 @@ def call_groq_api(prompt: str, temperature: float = 0.3) -> str:
     resp.raise_for_status()
 
     return resp.json()["choices"][0]["message"]["content"]
+
+
+def load_dataset():
+    with open(DATA_PATH, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        return list(reader)
+
+
+def extract_prompt_body(md_path: str) -> str:
+    """
+    Pulls the final prompt templte out of the markdown file - 
+    the text inside the last code block (```...```) in the file.
+    """
+
+    text = open(md_path, encoding='utf-8').read()
+    blocks = text.split("```")
+    code_blocks = blocks[1::2]
+
+    return code_blocks[-1].strip() if code_blocks else ""
