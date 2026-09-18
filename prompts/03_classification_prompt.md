@@ -60,3 +60,11 @@ text fields.
 Job posting:
 {description}
 ```
+
+**Why this is better:** constraining every categorical field to a fixed
+enum makes the output machine-parseable and directly comparable to ground
+truth for accuracy scoring; the `confidence` field lets a real ATS route
+low-confidence cases to a human instead of silently mis-tagging them; the
+`justification` field makes the model's reasoning auditable in one glance
+without bloating the output. See `/results/test_results_and_iterations.md`
+for accuracy against the dataset's true labels.

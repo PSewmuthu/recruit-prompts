@@ -46,3 +46,10 @@ job title as a heading, no closing remarks.
 Job description:
 {description}
 ```
+
+**Why this is better:** the fixed word/bullet caps force real compression
+instead of paraphrase-at-the-same-length; splitting responsibilities from
+requirements matches how a recruiter actually scans a JD; explicitly
+banning invented requirements avoids hallucinated must-haves that could
+mislead a hiring decision. See `/results/test_results_and_iterations.md`
+for before/after outputs on a real posting from the dataset.

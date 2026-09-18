@@ -53,3 +53,9 @@ Rules:
 Dataset:
 {dataset}
 ```
+
+**Why this is better:** the fixed section structure makes output consistent
+and diffable run-to-run; requiring specific numbers in the insights section
+prevents generic filler; the word cap keeps it skimmable for a busy
+recruiter. See `/results/test_results_and_iterations.md` for the actual v1
+vs. v2 outputs on this dataset.

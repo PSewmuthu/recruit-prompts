@@ -50,3 +50,11 @@ banned words). Total length: 120-170 words including hashtags.
 Job data:
 {fields}
 ```
+
+**Why this is better:** naming the specific structural elements (hook,
+practical facts, CTA, hashtags) matches what actually drives engagement on
+LinkedIn, rather than leaving format to chance; explicitly banning cliché
+phrases forces more specific, differentiated copy; requiring salary/location
+to be stated plainly fixes the biggest v1 miss (recruiters lose applicants
+when posts hide comp). See `/results/test_results_and_iterations.md` for a
+full before/after example.
