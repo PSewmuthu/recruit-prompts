@@ -24,7 +24,7 @@ import dotenv
 
 dotenv.load_dotenv()
 
-GROQ_MODEL = "llama-3.3-70b-versatile"  # free-tier model on Groq as of writing
+GROQ_MODEL = "openai/gpt-oss-120b"  # free-tier model on Groq as of writing
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
